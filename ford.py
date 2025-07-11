@@ -7,18 +7,16 @@ from selenium.webdriver.common.by import By
 import platform
 from config import FORD_URL
 
-
-vins_to_search = filter_vins()
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_experimental_option("detach", True)
-driver = webdriver.Chrome(options=chrome_options)
-
-driver.get(FORD_URL)
-
 def get_ford_towing():
     """Automates the chrome browser to open the Ford Url, search the VIN's in vins_to_search,
     then scrapes the Max Towing Capacity from the site.
     Returns a dictionary of VIN: Max Towing Capacity"""
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option("detach", True)
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.get(FORD_URL)
+    vins_to_search = filter_vins()
+
     ford_vin_towing = {}
 
     for vin in vins_to_search:
