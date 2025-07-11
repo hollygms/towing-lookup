@@ -7,5 +7,6 @@ def filter_vins():
         if dt.loc[index, TOWING_COLUMN] != 'VIN ERROR':
             if row['Manufacturer'] == MANUFACTURER and YEAR_START <= int(row['Construct Year']) <= YEAR_END:
                 valid_vin.append(row[VIN_COLUMN])
+
     return valid_vin
 

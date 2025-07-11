@@ -24,5 +24,3 @@ def check_nhtsa_api():
 
     dt.to_csv(CSV_FILE, index=False)
 
-
-check_nhtsa_api()

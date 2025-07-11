@@ -12,6 +12,7 @@ SOURCE_COLUMN = 'Source'
 
 
 dt = pd.read_csv(CSV_FILE)
+dt[TOWING_COLUMN] = dt[TOWING_COLUMN].astype('object') #errors get added as a string, converting to avoid an error
 
 FORD_URL = 'https://www.ford.com/support/towing-calculator'
 NHTSA_URL = 'https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValuesExtended/'

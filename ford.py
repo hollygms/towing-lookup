@@ -57,4 +57,3 @@ def get_ford_towing():
 
     driver.quit()
     return ford_vin_towing
-
