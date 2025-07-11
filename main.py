@@ -1,12 +1,12 @@
-from config import dt, CSV_FILE, FORD_URL
+from config import dt, CSV_FILE, FORD_URL, TOWING_COLUMN, VIN_COLUMN, SOURCE_COLUMN
 from ford import get_ford_towing
-from validate_vin import check_valid_vins
+from validate_vin import check_nhtsa_api
 
-check_valid_vins()
+check_nhtsa_api()
 vin_towing = get_ford_towing()
 
 for key, value in vin_towing.items():
-    dt.loc[dt['VIN'] == key, 'Towing Capacity (lbs)'] = value
-    dt.loc[dt['VIN'] == key, 'Source'] = FORD_URL
+    dt.loc[dt[VIN_COLUMN] == key, TOWING_COLUMN] = value
+    dt.loc[dt[VIN_COLUMN] == key, SOURCE_COLUMN] = FORD_URL
 
 dt.to_csv(CSV_FILE, index=False)
