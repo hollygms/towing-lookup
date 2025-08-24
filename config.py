@@ -3,7 +3,7 @@ import pandas as pd
 MANUFACTURER = 'Ford'
 YEAR_START = 2020
 YEAR_END = 2025
-CSV_FILE = input('Enter file name:\n')
+CSV_FILE = 'data.csv'
 TOWING_COLUMN = 'Towing Capacity (lbs)'
 ENGINE_COLUMN = 'NHTSA Engine size/fuel'
 VIN_COLUMN = 'VIN'

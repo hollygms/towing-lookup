@@ -4,7 +4,7 @@ import requests
 
 def get_validated_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """Loops through the database's VIN column and runs each vin through the NHTSA API.
-    Updates Towing and Engine columns to VIN ERROR if a 400 error is received from API.
+    Updates Towing, and Engine columns to VIN ERROR if a 400 error is received from API.
     Otherwise, just updates the engine and fuel type"""
     #drops all blank vin numbers
     dt.dropna(subset=[VIN_COLUMN], inplace=True) 
@@ -22,6 +22,7 @@ def get_validated_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         if validation == '1,400':
             dt.at[i, TOWING_COLUMN] = 'VIN ERROR'
             dt.at[i, ENGINE_COLUMN] = 'VIN ERROR'
+            dt.at[i, 'Source'] = NHTSA_URL
         else:
             dt.at[i, ENGINE_COLUMN] = f'{engine}L/{fuel}'
 

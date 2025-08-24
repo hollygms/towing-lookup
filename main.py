@@ -1,14 +1,22 @@
-from config import dt, CSV_FILE, FORD_URL, TOWING_COLUMN, VIN_COLUMN, SOURCE_COLUMN
-from ford import get_ford_towing
-from validate_vin import check_nhtsa_api
+from config import dt, TOWING_COLUMN, VIN_COLUMN, SOURCE_COLUMN
+from ford import get_vin_towing
+from validate_vin import get_validated_dataframe
 
 
 if __name__ == '__main__':
-    check_nhtsa_api()
-    vin_towing = get_ford_towing()
 
-    for key, value in vin_towing.items():
-        dt.loc[dt[VIN_COLUMN] == key, TOWING_COLUMN] = value
-        dt.loc[dt[VIN_COLUMN] == key, SOURCE_COLUMN] = FORD_URL
+    #validating the vins via api and updating the dataframe
+    dt = get_validated_dataframe(dt)
 
-    dt.to_csv(CSV_FILE, index=False)
+    #getting dictionary of vins with the towing and source
+    ford_vin_dict = get_vin_towing(get_filtered_vins(dt))
+
+    #updating the dataframe with the towing and source
+    for key in ford_vin_dict:
+        index = dt.loc[dt[VIN_COLUMN] == key].index
+        dt.loc[index, TOWING_COLUMN] = ford_vin_dict[key][0]
+        dt.loc[index, SOURCE_COLUMN] = ford_vin_dict[key][1]
+
+    dt.to_csv('New Data.csv', index=False)
+
+    

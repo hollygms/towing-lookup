@@ -1,12 +1,18 @@
-from config import MANUFACTURER, YEAR_START, YEAR_END, dt, TOWING_COLUMN, VIN_COLUMN
+import pandas as pd
 
-def filter_vins():
+from config import MANUFACTURER, YEAR_START, YEAR_END, TOWING_COLUMN, VIN_COLUMN
+
+def get_filtered_vins(dt: pd.DataFrame) -> list[str]:
     """Returns a list of VIN's that valid, by the MANUFACTURER and within the year start and year end"""
-    valid_vin = []
-    for index, row in dt.iterrows():
-        if dt.loc[index, TOWING_COLUMN] != 'VIN ERROR':
-            if row['Manufacturer'] == MANUFACTURER and YEAR_START <= int(row['Construct Year']) <= YEAR_END:
-                valid_vin.append(row[VIN_COLUMN])
+    
+    #filters dt by the manufactuerer and date range
+    ford_df = dt[dt.Manufacturer.str.upper() == 'FORD'].loc[(dt['Construct Year'] <= YEAR_END) & (dt['Construct Year'] >= YEAR_START)]
 
-    return valid_vin
+    #drops anything that has VIN ERROR already in the towing column
+    ford_df = ford_df.drop(ford_df[ford_df[TOWING_COLUMN] == 'VIN ERROR'].index)
+
+    #returns the list of vins
+    valid_vins = ford_df.VIN.to_list()
+    
+    return valid_vins
 

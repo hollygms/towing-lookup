@@ -1,25 +1,25 @@
 import time
+import pandas as pd
 from selenium.webdriver.common.keys import Keys
 from selenium.common import NoSuchElementException
-from filter_data import filter_vins
+from filter_data import get_filtered_vins
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import platform
 from config import FORD_URL
 
-def get_ford_towing():
+def get_vin_towing(valid_vins) -> dict[str, str]:
     """Automates the chrome browser to open the Ford Url, search the VIN's in vins_to_search,
     then scrapes the Max Towing Capacity from the site.
-    Returns a dictionary of VIN: Max Towing Capacity"""
+    Returns a dictionary of VIN: [Max Towing Capacity, Source]"""
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_experimental_option("detach", True)
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(FORD_URL)
-    vins_to_search = filter_vins()
 
     ford_vin_towing = {}
 
-    for vin in vins_to_search:
+    for vin in valid_vins:
 
         #pop up that needs to be clicked to dismiss if it's displayed
         verify = driver.find_element(By.XPATH, '//*[@id="root"]/div/main/div[1]/div[3]/div/div[2]/div/button')
@@ -51,7 +51,7 @@ def get_ford_towing():
             value = 'VIN ERROR'
 
         finally:
-            ford_vin_towing[vin] = value
+            ford_vin_towing[vin] = [value, FORD_URL]
 
     driver.quit()
     return ford_vin_towing
