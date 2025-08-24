@@ -1,6 +1,7 @@
 from config import dt, TOWING_COLUMN, VIN_COLUMN, SOURCE_COLUMN
 from ford import get_vin_towing
 from validate_vin import get_validated_dataframe
+from filter_data import get_filtered_vins
 
 
 if __name__ == '__main__':

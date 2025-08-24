@@ -1,6 +1,6 @@
 import pandas as pd
 
-MANUFACTURER = 'Ford'
+MANUFACTURER = 'FORD'
 YEAR_START = 2020
 YEAR_END = 2025
 CSV_FILE = 'data.csv'
